@@ -4,6 +4,7 @@ from fnmatch import fnmatch
 import re
 from collections import Counter
 
+MOST_COMMON_QTY = 10
 
 def clear_word(word):
     word = word.strip().lower()
@@ -39,7 +40,7 @@ def load_data(filepath):
 
 
 def get_most_frequent_words(words_list):
-    return Counter(words_list).most_common(10)
+    return Counter(words_list).most_common(MOST_COMMON_QTY)
 
 if __name__ == '__main__':
     args = parse_args()
