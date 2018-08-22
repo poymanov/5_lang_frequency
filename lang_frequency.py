@@ -17,7 +17,8 @@ def parse_args():
 
 def load_data(filepath):
     try:
-        if not fnmatch(filepath, '*.txt'): raise TypeError
+        if not fnmatch(filepath, '*.txt'):
+            raise TypeError
 
         with open(filepath) as file:
             content = file.read().splitlines()
