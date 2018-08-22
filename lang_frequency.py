@@ -17,8 +17,7 @@ def parse_args():
 
 def load_data(filepath):
     try:
-        if not fnmatch(filepath, '*.txt'):
-            raise TypeError
+        if not fnmatch(filepath, '*.txt'): raise TypeError
 
         with open(filepath) as file:
             content = file.read().splitlines()
@@ -30,9 +29,9 @@ def load_data(filepath):
     for line in content:
         words = line.split()
 
-    for word in words:
-        word = clear_word(word)
-        words_list.append(word)
+        for word in words:
+            word = clear_word(word)
+            words_list.append(word)
 
     return words_list
 
@@ -42,11 +41,10 @@ def get_most_frequent_words(words_list):
 
     for word in words_list:
         if word not in words_stats:
-            count = 1
+            words_stats[word] = 1
         else:
-            count = words_stats[word] + 1
-
-        words_stats[word] = count
+            count = words_stats[word]
+            words_stats[word] = count + 1
 
     stats_data = []
 
