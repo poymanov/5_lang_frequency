@@ -2,6 +2,7 @@ import argparse
 import sys
 from fnmatch import fnmatch
 import re
+from collections import Counter
 
 
 def clear_word(word):
@@ -38,24 +39,7 @@ def load_data(filepath):
 
 
 def get_most_frequent_words(words_list):
-    words_stats = {}
-
-    for word in words_list:
-        if word not in words_stats:
-            words_stats[word] = 1
-        else:
-            count = words_stats[word]
-            words_stats[word] = count + 1
-
-    stats_data = []
-
-    sorted_data = sorted(words_stats, key=words_stats.get, reverse=True)
-
-    for word in sorted_data[:10]:
-        stats_data.append((word, words_stats[word]))
-
-    return stats_data
-
+    return Counter(words_list).most_common(10)
 
 if __name__ == '__main__':
     args = parse_args()
