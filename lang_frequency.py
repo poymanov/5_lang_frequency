@@ -1,6 +1,5 @@
 import argparse
 import sys
-from fnmatch import fnmatch
 import re
 from collections import Counter
 
