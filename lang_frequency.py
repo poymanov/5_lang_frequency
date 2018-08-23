@@ -4,55 +4,51 @@ from fnmatch import fnmatch
 import re
 from collections import Counter
 
-MOST_COMMON_QTY = 10
 
-def clear_word(word):
-    word = word.strip().lower()
-    return re.sub('[:\.\?,!"\'<>]+', '', word)
+def clear_file_content(file_content):
+    file_content = file_content.lower()
+    return re.sub('[:\.\?,!"\'<>«»]+', '', file_content)
+
+
+def create_words_list(file_content):
+    file_content = clear_file_content(file_content)
+    return file_content.split()
 
 
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('file', help='Path to file with text data')
+    parser.add_argument('--qty', help='Frequent words list size',
+                        type=int, default=10)
     return parser.parse_args()
 
 
 def load_data(filepath):
     try:
-        if not fnmatch(filepath, '*.txt'):
-            raise TypeError
-
         with open(filepath) as file:
-            content = file.read().splitlines()
-    except (FileNotFoundError, TypeError):
+            content = file.read()
+
+        return content
+    except (FileNotFoundError, TypeError, UnicodeDecodeError):
         return None
 
-    words_list = []
 
-    for line in content:
-        words = line.split()
+def get_most_frequent_words(words_list, most_common_qty):
+    return Counter(words_list).most_common(most_common_qty)
 
-        for word in words:
-            word = clear_word(word)
-            words_list.append(word)
-
-    return words_list
-
-
-def get_most_frequent_words(words_list):
-    return Counter(words_list).most_common(MOST_COMMON_QTY)
 
 if __name__ == '__main__':
     args = parse_args()
 
     filepath = args.file
-    words_list = load_data(filepath)
+    file_content = load_data(filepath)
 
-    if words_list is None:
+    if file_content is None:
         sys.exit('Failed to open text file (not found or incorrect format)')
 
-    words_stats = get_most_frequent_words(words_list)
+    words_list = create_words_list(file_content)
 
-    for word in words_stats:
-        word_value, word_count = word
-        print('%s - %s' % (word_value, word_count))
+    words_stats = get_most_frequent_words(words_list, args.qty)
+
+    for word_value, word_count in words_stats:
+        print('{} - {}'.format(word_value, word_count))
