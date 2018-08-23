@@ -9,10 +9,10 @@ def clear_file_content(file_content):
 
     content_matches = re.findall(r'[^A-Za-z]+', file_content)
 
-    if len(content_matches) == 0:
-        return ''
-    else:
+    if content_matches:
         return content_matches[0]
+    else:
+        return ''
 
 
 def create_words_list(file_content):
