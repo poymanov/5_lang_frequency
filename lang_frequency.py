@@ -6,7 +6,13 @@ from collections import Counter
 
 def clear_file_content(file_content):
     file_content = file_content.lower()
-    return re.sub('[:\.\?,!"\'<>«»]+', '', file_content)
+
+    content_matches = re.findall(r'[^A-Za-z]+', file_content)
+
+    if len(content_matches) == 0:
+        return ''
+    else:
+        return content_matches[0]
 
 
 def create_words_list(file_content):
@@ -49,5 +55,5 @@ if __name__ == '__main__':
 
     words_stats = get_most_frequent_words(words_list, args.qty)
 
-    for word_value, word_count in words_stats:
-        print('{} - {}'.format(word_value, word_count))
+    for value, count in words_stats:
+        print('{} - {}'.format(value, count))
