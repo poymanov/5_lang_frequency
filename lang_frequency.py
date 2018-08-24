@@ -4,20 +4,23 @@ import re
 from collections import Counter
 
 
-def clear_file_content(file_content):
-    file_content = file_content.lower()
+def clear_text(text):
+    text = text.lower()
 
-    content_matches = re.findall(r'[^A-Za-z]+', file_content)
+    text_matches = re.findall(r'[^a-z]+', text)
 
-    if content_matches:
-        return content_matches[0]
+    print(text_matches)
+    exit()
+
+    if text_matches:
+        return text_matches[0]
     else:
         return ''
 
 
-def create_words_list(file_content):
-    file_content = clear_file_content(file_content)
-    return file_content.split()
+def create_words_list(text):
+    text = clear_text(text)
+    return text.split()
 
 
 def parse_args():
@@ -46,14 +49,14 @@ if __name__ == '__main__':
     args = parse_args()
 
     filepath = args.file
-    file_content = load_data(filepath)
+    text = load_data(filepath)
 
-    if file_content is None:
+    if text is None:
         sys.exit('Failed to open text file (not found or incorrect format)')
 
-    words_list = create_words_list(file_content)
+    words_list = create_words_list(text)
 
     words_stats = get_most_frequent_words(words_list, args.qty)
 
-    for value, count in words_stats:
-        print('{} - {}'.format(value, count))
+    for word, count in words_stats:
+        print('{} - {}'.format(word, count))
