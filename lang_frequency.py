@@ -4,20 +4,9 @@ import re
 from collections import Counter
 
 
-def clear_text(text):
-    text = text.lower()
-
-    text_matches = re.findall(r'[^a-z]+', text)
-
-    if text_matches:
-        return text_matches[0]
-    else:
-        return ''
-
-
 def create_words_list(text):
-    text = clear_text(text)
-    return text.split()
+    text = text.lower()
+    return re.findall(r'[\w\d]+', text)
 
 
 def parse_args():
