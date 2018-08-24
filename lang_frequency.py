@@ -9,9 +9,6 @@ def clear_text(text):
 
     text_matches = re.findall(r'[^a-z]+', text)
 
-    print(text_matches)
-    exit()
-
     if text_matches:
         return text_matches[0]
     else:
